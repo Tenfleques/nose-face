@@ -1,0 +1,8 @@
+{
+    "appname" : "Enose Data Admin",
+    "description": "Приложение для анализа и исследования данных для E-Nose [VSUET]",
+    "user" : "Tenfleques",
+    "repo" : "nose-data",
+    "branch" : "data",
+    "path" :    "experiments/data/"
+}
