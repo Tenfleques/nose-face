@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/nose-face/static/css/main.f58ff7fe.chunk.css",
-    "main.js": "/nose-face/static/js/main.5981dfdc.chunk.js",
-    "main.js.map": "/nose-face/static/js/main.5981dfdc.chunk.js.map",
+    "main.js": "/nose-face/static/js/main.90352add.chunk.js",
+    "main.js.map": "/nose-face/static/js/main.90352add.chunk.js.map",
     "runtime-main.js": "/nose-face/static/js/runtime-main.17259542.js",
     "runtime-main.js.map": "/nose-face/static/js/runtime-main.17259542.js.map",
     "static/js/2.400384f2.chunk.js": "/nose-face/static/js/2.400384f2.chunk.js",
     "static/js/2.400384f2.chunk.js.map": "/nose-face/static/js/2.400384f2.chunk.js.map",
     "index.html": "/nose-face/index.html",
-    "precache-manifest.4ebec24105650b63b5969e22f5b219c3.js": "/nose-face/precache-manifest.4ebec24105650b63b5969e22f5b219c3.js",
+    "precache-manifest.c80f3b0e18ae938bbc6b975020663c34.js": "/nose-face/precache-manifest.c80f3b0e18ae938bbc6b975020663c34.js",
     "service-worker.js": "/nose-face/service-worker.js",
     "static/css/main.f58ff7fe.chunk.css.map": "/nose-face/static/css/main.f58ff7fe.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.17259542.js",
     "static/js/2.400384f2.chunk.js",
     "static/css/main.f58ff7fe.chunk.css",
-    "static/js/main.5981dfdc.chunk.js"
+    "static/js/main.90352add.chunk.js"
   ]
 }

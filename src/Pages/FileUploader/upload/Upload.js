@@ -6,9 +6,7 @@ import Application from "../../../Configs/package"
 import AutoCompleteTextBox from "../../../Controls/AutocompleteTextBox"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-
-
-
+import ParseXmlToJson from "../../../helpers/parse-xml"
 
 class Upload extends Component {
   constructor(props) {
@@ -74,16 +72,24 @@ class Upload extends Component {
     this.setState({ uploadProgress: {}, uploading: true });
     let api = this.state.gh_api
     const promises = [];
-  
+    
+
     for(let i = 0; i < this.state.files.length; ++i){
-  
-      let fnam = this.state.files[i].name
+
+      let fnam = this.state.files[i].name.toLowerCase().replace(".xml",".uint");
 
       promises.push(new Promise((resolve, reject) => {
         var fr = new FileReader();  
         fr.onload = () => {
-          resolve({ name: fnam, path: Application.path + this.state.catalog + fnam, content:  fr.result } )
+          let encoded_utf_8 =  new Uint8Array(fr.result);
+          let textDecode = new TextDecoder();
+          let textEncoder = new TextEncoder();
+
+          let json = JSON.stringify(ParseXmlToJson(textDecode.decode(encoded_utf_8)))
+
+          resolve({ name: fnam, path: Application.path + this.state.catalog + fnam, content: textEncoder.encode(json).join(",") } )
         };
+
         fr.addEventListener('progress', (event)=>{
           if (event.lengthComputable) {
             const copy = { ...this.state.uploadProgress };
@@ -95,7 +101,9 @@ class Upload extends Component {
             this.setState({ uploadProgress: copy });
           }
         });
-        fr.readAsText(this.state.files[i], "UTF-8"); 
+
+        fr.readAsArrayBuffer(this.state.files[i]);
+
       }));
     }
 
@@ -103,6 +111,7 @@ class Upload extends Component {
       let that = this;
       Promise.all(promises).then(function(files){
         let filenames = files.map(f => f.name);
+        
         let upload = api.pushFiles("file uploads: " + filenames.join(", "), files);        
 
         let updateLoaded = (f) => {
@@ -115,7 +124,7 @@ class Upload extends Component {
           if(res){
             if(res.status === 200){
                 for (var i = 0; i < filenames.length; ++i){
-                  setTimeout(updateLoaded(filenames[i]), Math.random()*10000)
+                  updateLoaded(filenames[i])
                 }
               }
           }          
@@ -139,8 +148,8 @@ class Upload extends Component {
     }
   }
 
-  renderProgress(file) {
-    const uploadProgress = this.state.uploadProgress[file.name];
+  renderProgress(file_name) {
+    const uploadProgress = this.state.uploadProgress[file_name];
     if (this.state.uploading || this.state.successfullUploaded) {
       return (
         <span className="d-inline pl-3">
@@ -202,10 +211,11 @@ class Upload extends Component {
               <div className="col-12 col-md-4 col-lg-6">
                 <div className="row text-left">
                   {this.state.files.map(file => {
+                    let show_f_name = file.name.toLowerCase().replace(".xml",".uint")
                     return (
-                      <div key={file.name} className="col-12 col-lg-6">
-                        <span className="">{file.name}</span>
-                        {this.renderProgress(file)}
+                      <div key={show_f_name} className="col-12 col-lg-6">
+                        <span className="">{show_f_name}</span>
+                        {this.renderProgress(show_f_name)}
                       </div>
                     );
                   })}

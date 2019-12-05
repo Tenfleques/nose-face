@@ -71,14 +71,14 @@ class Dropzone extends Component {
           ref={this.fileInputRef}
           className="FileInput"
           type="file"
-          accept=".xml"
+          accept=".xml,.csv,.xls"
           multiple
           onChange={this.onFilesAdded}
         />
         <img
           alt="upload"
           className="Icon"
-          src="/baseline-cloud_upload-24px.svg"
+          src="baseline-cloud_upload-24px.svg"
         />
         <span>Загрузить файлы</span>
       </div>
