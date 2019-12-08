@@ -20,6 +20,7 @@ class AutoCompleteTextBox extends Component {
                     onChange={this.props.onChange}
                     id={this.props.name}
                     name={this.props.name}
+                    value={this.props.value}
                     placeholder={this.props.placeholder}                
                     />
                 <span className="muted small">

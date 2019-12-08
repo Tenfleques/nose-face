@@ -55,4 +55,15 @@ const parseXmlToJson = (xml) => {
     return obj;
 }
 
-export default parseXmlToJson;
+const parseBlobToJson = (blob) => {
+    let textDecode = new TextDecoder();
+    let uint8 = new Uint8Array();
+    if (typeof blob === 'string'){
+        uint8 = new Uint8Array(blob.split(","));
+        return JSON.parse(textDecode.decode(uint8));
+    }
+
+    return {};
+}
+
+export default {parseXmlToJson, parseBlobToJson};

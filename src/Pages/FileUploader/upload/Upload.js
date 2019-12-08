@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import Dropzone from "../dropzone/Dropzone";
 import "./Upload.css";
-import GithubAPI from "../../../helpers/gh-helper"
-import Application from "../../../Configs/package"
+
 import AutoCompleteTextBox from "../../../Controls/AutocompleteTextBox"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import ParseXmlToJson from "../../../helpers/parse-xml"
+import parseXmlToJson from "../../../helpers/parse-nose-files"
 
 class Upload extends Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class Upload extends Component {
       uploadProgress: {},
       successfullUploaded: false,
       gh_api : {},
-      catalog: "",
+      catalog: props.root,
       authorized: false,
       user: {}
     };
@@ -28,28 +27,13 @@ class Upload extends Component {
     this.onPathChanged = this.onPathChanged.bind(this);
     this.renderActions = this.renderActions.bind(this);
   }
-  componentDidMount(){
-    let user = sessionStorage.getItem("user");
-    if(user){
-      user = JSON.parse(user);
-
-      const api = new GithubAPI({
-        token: user.token
-      })  
-      api.setRepo(Application.user, Application.repo);
-
-      let attempt_set_api = api.setBranch(Application.branch);
-
-      attempt_set_api.then(() => {
-          this.setState({ authorized: true, user : user, gh_api: api });
-      })
-
-      attempt_set_api.catch((e) => {
-        this.setState({ authorized: false, user : user });
-      })
-    }
   
+  componentDidUpdate(prevProps){
+    if(prevProps.root !== this.props.root){
+      this.setState({catalog : this.props.root})
+    }
   }
+
   onFilesAdded(files) {
     this.setState(prevState => ({
       files: prevState.files.concat(files)
@@ -58,7 +42,14 @@ class Upload extends Component {
 
   onPathChanged(ev) {
     let path = ev.target.value;
-
+    this.setState({catalog: path});
+  }
+  async uploadFiles() {
+    this.setState({ uploadProgress: {}, uploading: true });
+    let api = this.props.api
+    const promises = [];
+    
+    let path = this.state.catalog 
     if(path[path.length - 1] !== "/"){
       path += "/"
     }
@@ -66,13 +57,8 @@ class Upload extends Component {
       path = path.slice(1);
     }
 
-    this.setState({catalog: path});
-  }
-  async uploadFiles() {
-    this.setState({ uploadProgress: {}, uploading: true });
-    let api = this.state.gh_api
-    const promises = [];
-    
+    path = path.startsWith(this.props.Application.path) ?
+    path : this.props.Application.path + path;
 
     for(let i = 0; i < this.state.files.length; ++i){
 
@@ -85,9 +71,9 @@ class Upload extends Component {
           let textDecode = new TextDecoder();
           let textEncoder = new TextEncoder();
 
-          let json = JSON.stringify(ParseXmlToJson(textDecode.decode(encoded_utf_8)))
+          let json = JSON.stringify(parseXmlToJson.parseXmlToJson(textDecode.decode(encoded_utf_8)))
 
-          resolve({ name: fnam, path: Application.path + this.state.catalog + fnam, content: textEncoder.encode(json).join(",") } )
+          resolve({ name: fnam, path:  path + fnam, content: textEncoder.encode(json).join(",") } )
         };
 
         fr.addEventListener('progress', (event)=>{
@@ -123,10 +109,11 @@ class Upload extends Component {
         upload.then((res) => {
           if(res){
             if(res.status === 200){
-                for (var i = 0; i < filenames.length; ++i){
-                  updateLoaded(filenames[i])
-                }
+              for (var i = 0; i < filenames.length; ++i){
+                updateLoaded(filenames[i])
               }
+              that.props.onUploadSuccess(path);
+            }
           }          
         })
         upload.catch((e) => {
@@ -187,48 +174,44 @@ class Upload extends Component {
   }
 
   render() {
-    if (this.state.authorized){  
+      
       return (
-        <div className="container-fluid">
-          <div className="col-12">
-            <span className="Title py-3">Загрузка файлов</span>
-            <div className="row pt-3">
-              <AutoCompleteTextBox 
-                name="auto-complete-catalogs" 
-                caption="каталог файлов" 
-                className="col-12 px-0 border-bottom form-group text-left py-3 mb-3" 
-                help="Определить в какую группу отправить файлы. e.g. vsuet/vosdux" 
-                placeholder="" 
-                onChange={this.onPathChanged}
-                />
-              <div className="col-12 col-md-8 col-lg-6"> 
-                <Dropzone
-                  onFilesAdded={this.onFilesAdded}
-                  disabled={this.state.uploading || this.state.successfullUploaded}
-                />
-                <div className="col-12 text-center py-3">{this.renderActions()}</div>
-              </div>
-              <div className="col-12 col-md-4 col-lg-6">
-                <div className="row text-left">
-                  {this.state.files.map(file => {
-                    let show_f_name = file.name.toLowerCase().replace(".xml",".uint")
-                    return (
-                      <div key={show_f_name} className="col-12 col-lg-6">
-                        <span className="">{show_f_name}</span>
-                        {this.renderProgress(show_f_name)}
-                      </div>
-                    );
-                  })}
-                </div>            
-              </div>
+        <div className={this.props.className}>
+          <span className="Title h4 py-3">Загрузка файлов</span>
+          <div className="row pt-3">
+            <AutoCompleteTextBox 
+              name="auto-complete-catalogs" 
+              caption="каталог файлов" 
+              className="col-12 border-bottom form-group text-left py-3 mb-3" 
+              help="Определить в какую группу отправить файлы. e.g. vsuet/vosdux" 
+              placeholder=""
+              value={this.state.catalog}
+              onChange={this.onPathChanged}
+              />
+            <div className="col-12 col-md-8 col-lg-6"> 
+              <Dropzone
+                onFilesAdded={this.onFilesAdded}
+                disabled={this.state.uploading || this.state.successfullUploaded}
+              />
+              <div className="col-12 text-center py-3">{this.renderActions()}</div>
             </div>
-            
+            <div className="col-12 col-md-4 col-lg-6">
+              <div className="row text-left">
+                {this.state.files.map(file => {
+                  let show_f_name = file.name.toLowerCase().replace(".xml",".uint")
+                  return (
+                    <div key={show_f_name} className="col-12 col-md-6 col-lg-4">
+                      <span className="">{show_f_name}</span>
+                      {this.renderProgress(show_f_name)}
+                    </div>
+                  );
+                })}
+              </div>            
+            </div>
           </div>
-        </div>
+        </div> 
       );
     }
-    return "загрузка ....";
-  }
 }
 
 export default Upload;

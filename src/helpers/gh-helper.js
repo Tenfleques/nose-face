@@ -10,6 +10,7 @@ export default function GithubAPI(auth) {
     //the underlying library for making requests
     let gh = new GitHub(auth);
 
+    this.getApi = () => gh;
     /**
      * Sets the current repository to make push to
      * @public
