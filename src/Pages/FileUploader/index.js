@@ -47,7 +47,7 @@ class UploadPage extends Component {
         trees.then(function(res){
           let files = [];
           if(res && res.data && res.data.tree){
-            files = res.data.tree
+            files = res.data.tree.filter((f) => f.path.includes("data"))
           }
           that.setState({ authorized: true, user : user, gh_api: api, files : files, repo : repo });
         })
