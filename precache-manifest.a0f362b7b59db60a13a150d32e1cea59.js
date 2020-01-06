@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b044981495258fa276af9700627c3326",
+    "revision": "8f0168e6c244f731191616bf7dbb4bbe",
     "url": "/nose-face/index.html"
   },
   {
-    "revision": "30c87e6050ecfc2c6cbc",
+    "revision": "f88e04d22462a730cda1",
     "url": "/nose-face/static/css/main.5b045ab1.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/nose-face/static/js/2.160cb579.chunk.js"
   },
   {
-    "revision": "30c87e6050ecfc2c6cbc",
-    "url": "/nose-face/static/js/main.c8398370.chunk.js"
+    "revision": "f88e04d22462a730cda1",
+    "url": "/nose-face/static/js/main.542fcccb.chunk.js"
   },
   {
     "revision": "c41c8d2802e48851edb9",
