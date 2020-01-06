@@ -18,7 +18,7 @@ class noseMeasureTable extends Component {
         this.state = {
             columns : [],
             data : [],
-            page : 1, 
+            page : 0, 
             rows : props.rows
         }
         this.onClickPagination = this.onClickPagination.bind(this);

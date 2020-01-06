@@ -38,7 +38,7 @@ class UploadPage extends Component {
       let attempt_set_api = api.setBranch(Application.branch);
 
       attempt_set_api.then(() => {
-        let repo = api.getApi().getRepo(user.name, Application.repo);
+        let repo = api.getApi().getRepo(Application.user, Application.repo);
 
         let trees = repo.getTree(Application.branch+"?recursive=1")
 
