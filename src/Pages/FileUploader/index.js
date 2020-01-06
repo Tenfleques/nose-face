@@ -67,7 +67,7 @@ class UploadPage extends Component {
   }
 
   onClickFile(file){
-    let repo = this.state.gh_api.getApi().getRepo(this.state.user.name, Application.repo);
+    let repo = this.state.gh_api.getApi().getRepo(Application.user, Application.repo);
 
     let filecontent = repo.getBlob(file.sha);
     let that = this;
