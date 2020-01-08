@@ -150,7 +150,6 @@ class InvestigationsPage extends Component {
     if (this.state.authorized){     
       return (
         <div className="">
-          <NavBar className="mb-5" /> 
           <div className="container-fluid mt-5">
             <div className="row px-3">
               <FileList title="Служба поддержки" onClickDir={this.onClickDir} onClickFile={this.onClickFile} root={this.state.root} files={this.state.files} className="card mt-3 mt-md-4 pt-3 col-8 col-md-4 col-lg-3 d-none d-md-block min-h-85 mh-85 mh-md-85"/>

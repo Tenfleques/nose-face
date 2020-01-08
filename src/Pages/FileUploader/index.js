@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./index.css";
 import Upload from "./upload/Upload";
-import NavBar from "../../Components/navbar";
+
 import NoseMeasureTables from "../../Components/NoseTables";
 import FileList from "../../Components/FileList";
 import GithubAPI from "../../helpers/gh-helper"
@@ -111,7 +111,6 @@ class UploadPage extends Component {
     if (this.state.authorized){     
       return (
         <div className="">
-          <NavBar className="mb-5" /> 
           <div className="container-fluid mt-5">
             <div className="row px-3">
               <div className="col-12 col-md-8 col-lg-9">

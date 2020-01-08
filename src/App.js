@@ -8,6 +8,7 @@ import InvestigationsPage from "./Pages/Investigations";
 import SupportPage from "./Pages/Support";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
+import NavBar from "./Components/navbar";
 
 import './Css/bootstrap.css';
 import './Css/App.css';
@@ -17,7 +18,8 @@ import './Css/App.css';
 class App extends Component {
   render() {
     return (
-      <HashRouter basename="">     
+      <HashRouter basename="">
+          {sessionStorage.getItem('user') && <NavBar className="mb-5" /> }
           <Route exact strict path="/login" component={Login} />
           {/* <Route exact strict path="/nose-face/login/" component={Login} /> */}
           <PrivateRoute exact path="/" component={Home} />

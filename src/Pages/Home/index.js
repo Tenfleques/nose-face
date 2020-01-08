@@ -5,8 +5,7 @@ import AppConfig from "../../Configs/package"
 
 export default function Home() {
     return (
-        <div className="">
-            <NavBar className="mb-5" />            
+        <div className="">            
             <div className="container-fluid mt-5">
                 <div className="col-12 h3">
                     Добро пожаловать на платформе {AppConfig.appname} 
