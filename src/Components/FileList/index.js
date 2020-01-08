@@ -29,13 +29,18 @@ class FileList extends Component{
                 })
             }else{
                 return [<ListEntry key="root" onClick={() => this.onClickDir("")} caption={<FontAwesomeIcon icon={faHome}/>} className="d-flex text-secondary h5" />]
-                .concat( this.state.files.filter((a) =>     
-                    a.path.startsWith(this.state.root) 
-                    && a.path.replace(this.state.root,"").split("/").length === 2
-                    && a.type !== "tree"
-                ).map((f) => {
-                    return <ListEntry key={f.sha} onClick={(e) => this.props.onClickFile(f)} caption={f.path.replace(this.state.root + "/","")} className="d-flex text-secondary" />
-                }))
+                .concat( this.state.files
+                    .filter((a) =>     
+                        a.path.startsWith(this.state.root) 
+                        && a.path.replace(this.state.root,"").split("/").length === 2
+                        && a.type !== "tree"
+                    )
+                    .map((f) => {
+                        let f_arr = f.path.replace(this.state.root + "/","").split(".")
+                        let f_n = f_arr.slice(0,f_arr.length - 1).join(".")
+
+                        return <ListEntry key={f.sha} onClick={(e) => this.props.onClickFile(f)} caption={f_n} className="d-flex text-secondary" />
+                    }))
             }                        
         }
         return "";
@@ -43,8 +48,10 @@ class FileList extends Component{
 
 
     render(){
+        const def_title = "файлы на сервере";
+
         return (<div className={this.props.className} >
-                    <h4>файлы на сервере</h4>
+                    <h4>{this.props.title || def_title}</h4>
                     <div className="mh-85 mh-md-85 y-scroll-auto">
                         {this.showFileList()}
                     </div>                    

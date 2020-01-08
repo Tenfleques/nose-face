@@ -5,7 +5,7 @@ import AppConfig from "../../Configs/package";
 const NavBar = (props) => {
   return (
     <nav className={"navbar navbar-dark bg-primary fixed-top " + props.className} >
-      <Link className="nav-item text-white no-underline" to="/nose-face">
+      <Link className="nav-item text-white no-underline" to="/">
         {AppConfig.appname}
       </Link>
       {/* <Link className="nav-item text-white" to="/models">
@@ -14,8 +14,17 @@ const NavBar = (props) => {
       <Link className="nav-item text-white" to="/noses">
         Электроные носы
       </Link> */}
-      <Link className="nav-item text-white no-underline" to="/nose-face/upload">
+      
+      <Link className="nav-item text-white no-underline" to="/investigations">
+        Исследования
+      </Link>
+
+      <Link className="nav-item text-white no-underline" to="/upload">
         Загрузка файлов носа
+      </Link>
+      
+      <Link className="nav-item text-white no-underline" to="/support">
+        Поддержка 
       </Link>
     </nav>
   );

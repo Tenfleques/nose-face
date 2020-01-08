@@ -12,6 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.min-h-85{
+  min-height: 85vh;
+}
 .mh-85{
   max-height: 85vh;
 }

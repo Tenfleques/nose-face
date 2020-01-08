@@ -6,7 +6,7 @@ import { Route, Redirect } from 'react-router-dom';
         <Route {...rest} render={props => (
             sessionStorage.getItem('user')
                 ? <Component {...props} />
-                : <Redirect to={{ pathname: '/nose-face/login', state: { from: props.location } }} />
+                : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         )} />   
     )
 }

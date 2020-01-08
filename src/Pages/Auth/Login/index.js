@@ -116,7 +116,7 @@ class LoginPage extends React.Component {
 
     render() {
         return this.state.user.token
-            ? <Redirect to={{ pathname: '/nose-face/', state: { from: "/nose-face/login" } }} />
+            ? <Redirect to={{ pathname: '/', state: { from: "/login" } }} />
             : this.renderLoginForm();
     }
 }
